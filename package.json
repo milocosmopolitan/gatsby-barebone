@@ -26,7 +26,12 @@
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "@types/react-helmet": "^6.0.0",
-    "prettier": "2.0.5"
+    "gatsby-plugin-tslint": "0.0.2",
+    "prettier": "2.0.5",
+    "tslint": "^6.1.2",
+    "tslint-loader": "^3.5.4",
+    "tslint-react": "^5.0.0",
+    "typescript": "^3.9.7"
   },
   "keywords": [
     "gatsby"

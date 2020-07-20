@@ -38,6 +38,15 @@ module.exports = {
       },
     },
 
+    // https://www.gatsbyjs.org/packages/gatsby-plugin-tslint/
+    {
+      resolve: 'gatsby-plugin-tslint',
+      options: {
+        test: /\.ts$|\.tsx$/,
+        exclude: /(node_modules|cache|public)/
+      }
+    },
+
     // https://www.gatsbyjs.org/packages/gatsby-plugin-sass/
     `gatsby-plugin-sass`,
     // this (optional) plugin enables Progressive Web App + Offline functionality

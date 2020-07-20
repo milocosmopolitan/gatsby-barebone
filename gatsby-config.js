@@ -5,6 +5,24 @@ module.exports = {
     author: `@gatsbyjs`,
   },
   plugins: [
+    `gatsby-plugin-typescript`,
+    // https://www.gatsbyjs.org/packages/gatsby-plugin-tslint/
+    {
+      resolve: 'gatsby-plugin-tslint',
+      options: {
+        test: /\.ts$|\.tsx$/,
+        exclude: /(node_modules|cache|public)/,
+        // name of your formatter (optional)
+        formatter: 'prose',
+        
+        // path to directory containing formatter (optional)
+        formattersDirectory: 'node_modules/tslint-loader/formatters/',
+      }
+    },
+
+    // https://www.gatsbyjs.org/packages/gatsby-plugin-sass/
+    `gatsby-plugin-sass`,
+
     // https://www.gatsbyjs.org/packages/gatsby-plugin-react-helmet/
     // https://www.npmjs.com/package/react-helmet
     `gatsby-plugin-react-helmet`,
@@ -38,17 +56,8 @@ module.exports = {
       },
     },
 
-    // https://www.gatsbyjs.org/packages/gatsby-plugin-tslint/
-    {
-      resolve: 'gatsby-plugin-tslint',
-      options: {
-        test: /\.ts$|\.tsx$/,
-        exclude: /(node_modules|cache|public)/
-      }
-    },
-
-    // https://www.gatsbyjs.org/packages/gatsby-plugin-sass/
-    `gatsby-plugin-sass`,
+    
+    
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

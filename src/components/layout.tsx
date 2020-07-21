@@ -5,14 +5,27 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useMemo } from "react";
 import { useStaticQuery, graphql } from "gatsby";
-
 import Header from "./header"
+import LanguageSelector from "./language-selector";
+import WithI18Next from "../i18n/i18next.hoc";
 import "./layout.scss"
 
-const Layout = (props: any) => {
+export const LocaleContext = React.createContext<IPageContext>({
+  locale: null
+});
+
+interface IPageContext {
+  locale: any|null;
+}
+
+interface ILayoutProps {
+  children: React.ReactChildren;
+  pageContext: IPageContext;
+}
+
+const Layout = (props: ILayoutProps) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -21,11 +34,14 @@ const Layout = (props: any) => {
         }
       }
     }
-  `)
+  `);
+  const locale: any|null = props.pageContext.locale;
+  const value = useMemo(() => ({ locale }), [locale]);
 
   return (
-    <>
+    <LocaleContext.Provider value={value}>
       <Header siteTitle={data.site.siteMetadata.title} />
+      <LanguageSelector/>
       <div
         style={{
           margin: `0 auto`,
@@ -40,12 +56,8 @@ const Layout = (props: any) => {
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </footer>
       </div>
-    </>
+    </LocaleContext.Provider>
   )
 }
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export default Layout
+export default WithI18Next(Layout)

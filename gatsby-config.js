@@ -14,9 +14,16 @@ module.exports = {
         exclude: /(node_modules|cache|public)/,
         // name of your formatter (optional)
         formatter: 'prose',
-        
         // path to directory containing formatter (optional)
         formattersDirectory: 'node_modules/tslint-loader/formatters/',
+      }
+    },
+
+    {
+      resolve: 'gatsby-plugin-i18n',
+      options: {
+        langKeyDefault: 'en',
+        useLangKeyLayout: false
       }
     },
 

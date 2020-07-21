@@ -1,13 +1,36 @@
+// import i18next, {InitOptions} from 'i18next';
+
+// function initializeI18next(fallbackLng: string, option: InitOptions) {
+//   i18next.init({
+//     debug: true,
+//     defaultNS: 'client',
+//     fallbackLng,
+//     react: {
+//       useSuspense: false,
+//     },
+//     interpolation: {
+//       prefix: '[[__',
+//       suffix: '__]]',
+//     },
+//     ...option,
+//   });
+
+//   return i18next;
+// }
+
+// // const APP_LOCALE = initializeI18next({})
+
+// export default initializeI18next;
 import i18next from 'i18next';
 
 i18next.init({
     fallbackLng: 'en',
     resources: {
-        sp: {
-            translations: require('../locales/sp/translations.json')
+        es: {
+          translations: require('../locales/translations/es.json')
         },
         en: {
-            translations: require('../locales/en/translations.json')
+          translations: require('../locales/translations/en.json')
         }
     },
     ns: ['translations'],
@@ -22,6 +45,6 @@ i18next.init({
     },
 });
 
-i18next.languages = ['sp', 'en'];
+i18next.languages = ['es', 'en'];
 
 export default i18next;

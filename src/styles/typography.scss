@@ -1,0 +1,54 @@
+/*
+ * Because fonts are relatively large initial payload,
+ * even when we are pulling them from CDN.
+ * Application should limit the number of font being used.
+ */
+$primary-font: 'Roboto Slab', serif;
+$accent-font: 'Patua One', cursive;
+
+/*
+ * Font weight variables
+ */
+$thin-weight: 100;
+$light-weight: 300;
+$normal-weight: 400;
+$medium-weight: 500;
+$bold-weight: 700;
+$black-weight: 900;
+
+body {
+  font-family: $primary-font;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $accent-font;
+}
+
+
+/*
+ * Attempts to build light weight SASS function for material design typography scale
+ * https://material.io/design/typography/the-type-system.html#type-scale
+ */
+$typography:
+  "headline-1" 96px $light-weight -1.5px,
+  "headline-2" 60px $light-weight -0.5px,
+  "headline-3" 48px $normal-weight 0px,
+  "headline-4" 34px $normal-weight 0.25px,
+  "headline-5" 24px $normal-weight 0px,
+  "headline-6" 20px $medium-weight 0.15px,
+  "subtitle-1" 16px $normal-weight 0.15px,
+  "subtitle-2" 14px $medium-weight 0.1px,
+  "body-1" 16px $normal-weight 0.5px,
+  "body-2" 14px $medium-weight 0.25px,
+  "button" 14px $medium-weight 1.25px,
+  "caption" 12px $normal-weight 0.4px,
+  "overline" 10px $normal-weight 1.5px,
+  ;
+
+@each $name, $size, $weight, $letter-spacing in $typography {
+  .#{$name} {
+    font-size: $size;
+    font-weight: $weight;
+    letter-spacing: $letter-spacing;
+  }
+}

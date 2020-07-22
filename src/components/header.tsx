@@ -1,42 +1,69 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
-import React from "react"
+import React, { useRef } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Box from '@material-ui/core/Box';
+import MenuIcon from '@material-ui/icons/Menu';
+import { Link, animateScroll as scroll } from "react-scroll";
+import Slide from '@material-ui/core/Slide';
+import Grow from '@material-ui/core/Grow';
+import Brand from './brand';
+import { IconButton, Button } from '@material-ui/core';
 
-const Header = (props: any) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {props.siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+function GrowOnScroll(props: any) {
+  const { children } = props;
+  const trigger = useScrollTrigger({ target: typeof window !== `undefined` ? window : undefined });
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
+  return (
+    <Grow appear={true} in={trigger}>
+      {children}
+    </Grow>
+  );
 }
 
-Header.defaultProps = {
-  siteTitle: ``,
+function HideOnScroll(props: any) {
+  const { children } = props;
+  const trigger = useScrollTrigger({ target: typeof window !== `undefined` ? window : undefined });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
 }
 
-export default Header
+export default function HideAppBar(props: any) {
+  const appBarRef = useRef(null);
+  return (
+    <>
+      <AppBar color="transparent" ref={appBarRef} elevation={0}>
+        <Box position="absolute" width="100%" top="15px" display="flex" justifyContent="center">
+          <Brand parentRef={appBarRef}>
+            <Link to="intro"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={500}>
+              LOGO
+            </Link>
+          </Brand>
+        </Box>
+        <HideOnScroll {...props}>
+          <Toolbar component="nav">
+            <IconButton id="collapsed-nav" className="nav-collapsed" edge="start" color="inherit" aria-label="menu">
+              <MenuIcon />
+            </IconButton>
+            {/* <Typography variant="h6">Scroll to Hide App Bar</Typography> */}
+
+            <Box component="div"
+              className="nav-expanded"
+              display={{ xs: 'none', sm: 'none', md: 'block' }}
+              position="absolute" right="15px">
+              {props.children}
+            </Box>
+          </Toolbar>
+        </HideOnScroll>
+      </AppBar>
+    </>
+  );
+}

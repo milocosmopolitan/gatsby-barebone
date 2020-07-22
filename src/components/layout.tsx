@@ -8,9 +8,25 @@
 import React, { useMemo } from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import Header from "./header"
+import Footer from './footer';
 import LanguageSelector from "./language-selector";
 import WithI18Next from "../i18n/i18next.hoc";
-import "./layout.scss"
+import { Link } from "react-scroll";
+// import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     // root: {
+//     //   flexGrow: 1,
+//     // },
+//     menuButton: {
+//       marginRight: theme.spacing(2),
+//     },
+//     title: {
+//       flexGrow: 1,
+//     },
+//   }),
+// );
+
 
 export const LocaleContext = React.createContext<IPageContext>({
   locale: null
@@ -38,24 +54,42 @@ const Layout = (props: ILayoutProps) => {
   const locale: any|null = props.pageContext.locale;
   const value = useMemo(() => ({ locale }), [locale]);
 
+  // const classes = useStyles();
+
   return (
     <LocaleContext.Provider value={value}>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <LanguageSelector/>
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{props.children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
+      <Header>
+        <Link to="about"
+          className="nav-link"
+          spy={true}
+          smooth={true}
+          offset={-70}>
+          About
+        </Link>
+        <Link to="services"
+          className="nav-link"
+          spy={true}
+          smooth={true}
+          offset={-70}>
+          Services
+        </Link>
+        <Link to="contact"
+          className="nav-link"
+          spy={true}
+          smooth={true}
+          offset={-70}>
+          Contact
+        </Link>
+
+        <LanguageSelector/>
+      </Header>
+      <main>{props.children}</main>
+      
+      <Footer>
+        © {new Date().getFullYear()}, Built with
+        {` `}
+        <a href="https://www.gatsbyjs.org">Gatsby</a>
+      </Footer>
     </LocaleContext.Provider>
   )
 }

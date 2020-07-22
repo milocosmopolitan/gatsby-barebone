@@ -3,5 +3,15 @@
     "title": "Hello world!",
     "subline": "This starter supports internalization",
     "backToHome": "Back to home"
+  },
+  "intro": {
+    "heading": "",
+    "subHeading": "",
+    "button": "",
+    "intro": {
+      "heading": "",
+      "subHeading": "",
+      "button": ""
+    }
   }
 }

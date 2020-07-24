@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useRef, ComponentType, useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
+import { useWindowEventListener } from "../shared/hooks/browser.hook"
+import styled from "styled-components";
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -13,12 +15,36 @@ import Img from "gatsby-image"
  * - `useStaticQuery`: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-const Image = () => {
+const VerticalTranslateContainer: ComponentType<any> = styled.div.attrs<any>(({ translateY }) => ({
+  style: { transform: `translateY(${translateY}px)` }
+}))`
+  transition: transform ease-in,
+  will-change: transform;
+`;
+
+function updateTranslateY(
+  ref: React.RefObject<any>,
+  setTranslateY: React.Dispatch<React.SetStateAction<number>>
+) {
+  const vh = window.innerHeight;
+  const startingY: number = ref.current.offsetTop - vh;
+
+  if (window.scrollY > startingY) {
+    const offset = ref.current.clientHeight - ((window.scrollY - startingY) * 0.8);
+    setTranslateY(offset);
+  }
+}
+
+const Image: ComponentType<any> = (props: any) => {
+
+  const initialY = window.innerHeight * 0.8;
+  const [translateY, setTranslateY] = useState<number>(initialY);
+
   const data = useStaticQuery(graphql`
     query {
-      placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
+      placeholderImage: file(relativePath: { eq: "shakinghand-mock.png" }) {
         childImageSharp {
-          fluid(maxWidth: 300) {
+          fluid(maxWidth: 400) {
             ...GatsbyImageSharpFluid
           }
         }
@@ -26,7 +52,15 @@ const Image = () => {
     }
   `)
 
-  return <Img fluid={data.placeholderImage.childImageSharp.fluid} />
+  const onScroll = () => updateTranslateY(props.containerRef, setTranslateY)
+
+  useWindowEventListener('scroll', onScroll);
+
+  return (
+    <VerticalTranslateContainer translateY={translateY}>
+      <Img  fluid={data.placeholderImage.childImageSharp.fluid} />
+    </VerticalTranslateContainer>
+  )
 }
 
 export default Image

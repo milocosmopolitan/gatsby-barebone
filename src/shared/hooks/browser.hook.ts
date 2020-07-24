@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, DependencyList } from 'react';
 
 const _isClient = () => typeof window !== 'undefined';
 
@@ -9,7 +9,8 @@ const _isClient = () => typeof window !== 'undefined';
  */
 export function useWindowEventListener (
   eventKey: string,
-  callback: () => void
+  callback: () => void,
+  dep: DependencyList = []
 ) {
   useEffect(() => {
     if (!_isClient()) return;

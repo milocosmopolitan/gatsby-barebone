@@ -13,9 +13,14 @@ export function transformCss (option: any): AnimationObject {
     scale, scaleX, scaleY
   } = option;
 
-  const styles: {[key:string]: AnimationObject} = {
-    translate: translateCss({ translateY, translateX }),
-    scale: scaleCss({ scale, scaleX, scaleY })
+  const styles: {[key:string]: AnimationObject} =  {}
+
+  if (translateY || translateX) {
+    styles.translate = translateCss({ translateY, translateX });
+  }
+
+  if (scale) {
+    styles.scale = scaleCss({ scale, scaleX, scaleY })
   }
 
   return Object.keys(styles).reduce((output, key: string) => {

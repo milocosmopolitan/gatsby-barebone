@@ -14,6 +14,17 @@ const UI_PLUGINS = [
   `gatsby-plugin-sass`,
   {
     resolve: `gatsby-plugin-material-ui`,
+  },
+  {
+    resolve: 'gatsby-plugin-react-svg',
+    options: {
+      rule: {
+        include: /assets/,
+        omitKeys: ['xmlnsDc', 'xmlnsCc', 'xmlnsRdf', 'xmlnsSvg', 'xmlnsSodipodi', 'xmlnsInkscape'],
+        // ///OR
+        // filters: [(value) => { console.log(value); }]
+      }
+    }
   }
 ];
 const COMPILE_LANG_PLUGINS = [

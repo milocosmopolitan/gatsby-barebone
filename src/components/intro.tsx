@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 export const IntroSectionContent = (props: any) => {
   const { t } = useTranslation();
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"
+      height="80vh">
       <h2 className="headline-1">
         {t('home.title')}
       </h2>

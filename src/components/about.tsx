@@ -1,12 +1,100 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
+import React, {useRef, ComponentType, useState} from 'react';
+// import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import { Container } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
+// import BrandLarge from './brand-lg';
+import styled from "styled-components";
+// import { useWindowEventListener } from '../shared/hooks/browser.hook';
+import { Theme } from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  content: {
+    margin: 0,
+    // [theme.breakpoints.down('sm')]: {
+    //   backgroundColor: theme.palette.secondary.main,
+    // },
+    // [theme.breakpoints.up('md')]: {
+    //   backgroundColor: theme.palette.primary.main,
+    // },
+    [theme.breakpoints.up('lg')]: {
+      marginLeft: 400,
+    },
+  },
+  /**  */
+  brandingLarge: {
+
+  }
+}));
+
+
+const OuterContainer: ComponentType<any> = styled.div.attrs<any>(
+  ({ dynamicHeight }) => ({
+    style: { height: `${dynamicHeight}px` }
+  })
+)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+const AnimationQueues = {
+  a: {
+    scrollY: 0,
+    transform: {
+      scale: 2,
+    }
+  },
+  b: {
+    scrollBind: {
+      anchoredElementId: ''
+    },
+    transform: {
+      scale: 2,
+    }
+  }
+}
+
+// const updateTranslateX = (
+//   ref: React.RefObject<any>,
+//   setTranslateY: React.Dispatch<React.SetStateAction<number>>
+// ) => {
+//   console.log(ref)
+  
+//   if (ref.current.parentNode.offsetTop)
+//   setTranslateX(ref.current.parentNode.offsetTop);
+// }
 
 export const AboutSectionContent = (props: any) => {
+  const classes = useStyles();
+
+  // const [translateY, setTranslateX] = useState<number>(0);
+
+  // // const onWindowResize = () => {
+    
+  // // }
+  // const onScrollChange = () => {
+  //   // updateTranslateX(containerRef, setTranslateX);
+  //   // console.log(containerRef)
+
+  //   updateTranslateX(containerRef, setTranslateX);
+  // };
+
+  // // useWindowEventListener('resize', onWindowResize);
+  // useWindowEventListener('scroll', onScrollChange);
+
+  const containerRef = useRef()
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-      <Container maxWidth="sm">
+    <OuterContainer ref={containerRef}>
+      {/* <Box position="absolute" width="100%" top="-200px" display="flex" justifyContent="center">
+        <BrandLarge>
+          Logo {translateY}
+        </BrandLarge>
+      </Box> */}
+      <Container maxWidth="sm" className={classes.content}>
         <h2>About Business</h2>
 
         <summary>
@@ -18,7 +106,7 @@ export const AboutSectionContent = (props: any) => {
       </Container>
 
       <Button variant="contained">Learn more</Button>
-    </Box>
+    </OuterContainer>
   )
 }
 

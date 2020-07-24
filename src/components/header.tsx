@@ -8,7 +8,11 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
 import Brand from './brand';
-import { IconButton, Button } from '@material-ui/core';
+import { IconButton, Button, useMediaQuery, useTheme } from '@material-ui/core';
+import { useStaticQuery, graphql } from 'gatsby';
+import { useLocation } from '../shared/hooks/location.hook';
+import BrandLarge from './brand-lg';
+import Logo from '../assets/No-logo.svg';
 
 function GrowOnScroll(props: any) {
   const { children } = props;
@@ -34,33 +38,80 @@ function HideOnScroll(props: any) {
 
 export default function HideAppBar(props: any) {
   const appBarRef = useRef(null);
+
+  const {location} = useLocation();
+
+  console.log(location.pathname)
+  // const { sitePage } = useStaticQuery(
+  //   graphql`
+  //     query {
+  //       sitePage {
+  //         id
+  //         path
+  //       }
+  //     }
+  //   `
+  // )
+  // Just in case if we ever need to update UI based on location
+  // const DynamicPageBrand = location.pathname === '/'
+  //   ? () : ()
+  // const theme = useTheme();
+  // const md = useMediaQuery(theme.breakpoints.only('md'));
+
+  // const ResponsiveBrand = md ? (
+  //   <Brand parentRef={appBarRef}>
+  //     <Link to="intro"
+  //       spy={true}
+  //       smooth={true}
+  //       offset={-70}
+  //       duration={500}>
+  //       LOGO 
+  //     </Link>
+  //   </Brand>
+  // ) : (
+  //   <BrandLarge>
+  //   </BrandLarge>
+  // );
+
   return (
     <>
       <AppBar color="transparent" ref={appBarRef} elevation={0}>
-        <Box position="absolute" width="100%" top="15px" display="flex" justifyContent="center">
-          <Brand parentRef={appBarRef}>
+
+
+        <Box position="absolute" width="100%" top="15px" display="flex" justifyContent="start">
+          <Brand parentRef={appBarRef} breakpoint="sm">
             <Link to="intro"
               spy={true}
               smooth={true}
               offset={-70}
               duration={500}>
-              LOGO
+              <Logo height="40px" width="120px" /> 
             </Link>
           </Brand>
         </Box>
+
         <HideOnScroll {...props}>
           <Toolbar component="nav">
-            <IconButton id="collapsed-nav" className="nav-collapsed" edge="start" color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
+
+            <Box component="div"
+              className="mobile-nav"
+              position="absolute"
+              right="15px"
+              display={{ xs: 'block', sm: 'block', md: 'none' }}>
+              <IconButton id="collapsed-nav" className="nav-collapsed" color="inherit" aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+              {/* {props.children} */}
+            </Box>
             {/* <Typography variant="h6">Scroll to Hide App Bar</Typography> */}
 
             <Box component="div"
-              className="nav-expanded"
+              className="desktop-nav"
               display={{ xs: 'none', sm: 'none', md: 'block' }}
               position="absolute" right="15px">
               {props.children}
             </Box>
+
           </Toolbar>
         </HideOnScroll>
       </AppBar>

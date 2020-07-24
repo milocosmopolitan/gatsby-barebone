@@ -77,7 +77,7 @@ const toggleStickyHeader = (
   const offsetTop = -containerRef.current.offsetTop;
   const shouldStickHeader = (-offsetTop + containerRef.current.clientHeight) < dynamicHeight; 
 
-  console.log('toggleStickyHeader.shouldStickHeader', shouldStickHeader, offsetTop, dynamicHeight, containerRef)
+  // console.log('toggleStickyHeader.shouldStickHeader', shouldStickHeader, offsetTop, dynamicHeight, containerRef)
   setStickyHeaderStatus(shouldStickHeader);
 }
 

@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import { Container, makeStyles } from '@material-ui/core';
 // import BrandLarge from './brand-lg';
 import styled from "styled-components";
-// import { useWindowEventListener } from '../shared/hooks/browser.hook';
 import { Theme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({

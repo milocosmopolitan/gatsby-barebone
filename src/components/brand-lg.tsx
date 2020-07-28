@@ -1,60 +1,64 @@
-import React, { useRef, useState } from 'react';
-import { Transition } from 'react-transition-group';
-import Box from '@material-ui/core/Box';
-import { transformCss } from '../utils/animation/transform';
-import { useWindowEventListener } from '../shared/hooks/browser.hook';
+import React, { ComponentType } from 'react';
+import styled from "styled-components";
+import { useScrollContext } from '../shared/scroll/scroll.provider';
+import { useScrollAnimation } from '../shared/scroll/scroll.animation';
 
-const duration = 300;
+const BrandContainer: ComponentType<any> = styled.div.attrs<any>(({ justifyContent }) => ({
+  style: { justifyContent: justifyContent || 'center' }
+}))`
+  position: absolute;
+  width: 100%;
+  top: 15px;
+  display: flex;
+  justify-content: start;
+  will-change: transform;
+`;
 
-const transform = transformCss({
-  scale: { from: 1, to: 1.2 },
-  translateX: { from: 0, to: -25, unit: 'vw' }
-});
+const TransformContainer: ComponentType<any> = styled.div.attrs<any>(({ translateY, translateX, scale }) => ({
+  style: {
+    transform: `translate(${translateX || 0}px, ${translateY || 0}px) scale(${scale || 1})`
+  }
+}))`
+  transition: transform ease-in,
+  will-change: transform;
+`;
 
-const defaultStyle = {
-  transition: `transform ${duration}ms ease-in-out`,
-  transform: transform.from,
-}
+function DesktopBrand(props: any) {
 
-const transitionStyles: any = {
-  entering: { transform: transform.to },
-  entered:  { transform: transform.to },
-  exiting:  { transform: transform.from },
-  exited:   { transform: transform.from },
-};
+  const {scrollY} = useScrollContext();
+  const vh = window.innerHeight;
+  const vw = window.innerWidth;
 
-const AnimateOnScroll = (props: any) => (
-  <Transition in={props.in} timeout={duration}>
-    {state => (
-      <div style={{
-        ...defaultStyle,
-        ...transitionStyles[state]
-      }}>
-        {props.children}
-      </div>
-    )}
-  </Transition>
-);
+  const translateX = useScrollAnimation([{
+    start: vh * 0.25,
+    end: vh * 0.7,
+    transform: { from: 0, to: -vw * 0.3 }
+  },{
+    start: vh * 1.3,
+    end: vh * 1.6,
+    transform: { from: -vw * 0.3, to: -vw * 0.5 + 100 }
+  }], scrollY)
 
-export default function BrandLarge(props: any) {
-  
-  const [trigger, setTrigger] = useState(false);
-  const onScroll = () => {
-    const scrollPassed = window.scrollY > (props.triggerAt || props.parentRef.current.clientHeight);
-    setTrigger(scrollPassed);
-  };
 
-  useWindowEventListener('scroll', onScroll)
+  const translateY = useScrollAnimation([{
+    start: vh * 0.4,
+    end: vh * 1.5,
+    transform: { from: vh * 0.8, change: -vh * 0.8, limit: 0 }
+  }], scrollY)
+
+  const scale = useScrollAnimation([{
+    start: vh * 1.3,
+    end: vh * 1.6,
+    transform: { from: 4, to: 1 }
+  }], scrollY)
 
   return (
-    <div className="brand-container">
-      <AnimateOnScroll in={trigger}>
-
-        <Box component="div">
-          {props.children}
-        </Box>
-
-      </AnimateOnScroll>
-    </div>
+    <BrandContainer justifyContent={'center'}>
+      <TransformContainer translateX={translateX} translateY={translateY} scale={scale}>
+        {props.children}
+      </TransformContainer>
+    </BrandContainer>
   )
 }
+
+export default DesktopBrand;

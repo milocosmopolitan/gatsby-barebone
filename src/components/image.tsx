@@ -1,8 +1,8 @@
-import React, { useRef, ComponentType, useState } from "react"
+import React, { ComponentType, useState, useEffect } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
-import { useWindowEventListener } from "../shared/hooks/browser.hook"
 import styled from "styled-components";
+import { useScrollContext } from "../shared/scroll/scroll.provider";
 
 /*
  * This component is built using `gatsby-image` to automatically serve optimized
@@ -37,6 +37,8 @@ function updateTranslateY(
 
 const Image: ComponentType<any> = (props: any) => {
 
+  const { scrollY } = useScrollContext();
+
   const initialY = window.innerHeight * 0.8;
   const [translateY, setTranslateY] = useState<number>(initialY);
 
@@ -53,12 +55,11 @@ const Image: ComponentType<any> = (props: any) => {
   `)
 
   const onScroll = () => updateTranslateY(props.containerRef, setTranslateY)
-
-  useWindowEventListener('scroll', onScroll);
+  useEffect(onScroll, [scrollY]);
 
   return (
     <VerticalTranslateContainer translateY={translateY}>
-      <Img  fluid={data.placeholderImage.childImageSharp.fluid} />
+      <Img fluid={data.placeholderImage.childImageSharp.fluid} />
     </VerticalTranslateContainer>
   )
 }

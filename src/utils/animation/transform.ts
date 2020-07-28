@@ -24,6 +24,7 @@ export function transformCss (option: any): AnimationObject {
   }
 
   return Object.keys(styles).reduce((output, key: string) => {
+
     if (!output.from.length) {
       output.from = styles[key].from
     } else {
@@ -35,6 +36,8 @@ export function transformCss (option: any): AnimationObject {
     } else {
       output.to = output.to + ' ' + styles[key].to
     }
+
+    
 
     return output;
   }, { from:'', to: '' })

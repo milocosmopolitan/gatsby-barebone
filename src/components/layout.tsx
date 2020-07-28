@@ -17,6 +17,7 @@ import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import BackgroundImage from 'gatsby-background-image'
+import { WithScrollProvider } from "../shared/scroll/scroll.provider";
 
 // import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 // const useStyles = makeStyles((theme: Theme) =>
@@ -82,27 +83,26 @@ const Layout = (props: ILayoutProps) => {
     }
   `)
 
-  const imageData = background.childImageSharp.fluid
-
   const locale: any|null = props.pageContext.locale;
   const value = useMemo(() => ({ locale }), [locale]);
 
-  const theme = useTheme();
-  const xl = useMediaQuery(theme.breakpoints.only('xl'));
-  const lg = useMediaQuery(theme.breakpoints.only('lg'));
-  const md = useMediaQuery(theme.breakpoints.only('md'));
-  const sm = useMediaQuery(theme.breakpoints.only('sm'));
-  const xs = useMediaQuery(theme.breakpoints.only('xs'));
-  const narrow = useMediaQuery('(max-width:340px)');
+  // const theme = useTheme();
+  // const xl = useMediaQuery(theme.breakpoints.only('xl'));
+  // const lg = useMediaQuery(theme.breakpoints.only('lg'));
+  // const md = useMediaQuery(theme.breakpoints.only('md'));
+  // const sm = useMediaQuery(theme.breakpoints.only('sm'));
+  // const xs = useMediaQuery(theme.breakpoints.only('xs'));
+  // const narrow = useMediaQuery('(max-width:340px)');
 
-  const breakpoints = useMemo(() => ({ xl, lg, md, sm, xs, narrow }), [
-    xl, lg, md, sm, xs, narrow
-  ]);
+  // const breakpoints = useMemo(() => ({ xl, lg, md, sm, xs, narrow }), [
+  //   xl, lg, md, sm, xs, narrow
+  // ]);
 
   // const classes = useStyles();
 
+  console.log("Layout | props", props)
+
   return (
-    <BreakpointsContext.Provider value={breakpoints}>
       <LocaleContext.Provider value={value}>
         
         <Header>
@@ -168,9 +168,8 @@ const Layout = (props: ILayoutProps) => {
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </Footer>
       </LocaleContext.Provider>
-    </BreakpointsContext.Provider>
     
   )
 }
 
-export default WithMediaQuery(WithI18Next(Layout))
+export default WithScrollProvider(WithMediaQuery(WithI18Next(Layout)))

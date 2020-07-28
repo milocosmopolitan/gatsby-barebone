@@ -1,6 +1,5 @@
 import { useEffect, DependencyList } from 'react';
-
-const _isClient = () => typeof window !== 'undefined';
+import { BrowserUtils } from './browser.utils';
 
 /**
  * React hook for window event listener
@@ -13,8 +12,8 @@ export function useWindowEventListener (
   dep: DependencyList = []
 ) {
   useEffect(() => {
-    if (!_isClient()) return;
+    if (!BrowserUtils.IsClient()) return;
     window.addEventListener(eventKey, callback);
     return () => window.removeEventListener(eventKey, callback);
-  }, []) // Empty array ensures that effect is only run on mount and unmount
+  }, dep) // Empty array ensures that effect is only run on mount and unmount
 }

@@ -13,11 +13,7 @@ import Image from "../components/image";
 import SEO from "../components/seo";
 import { useTranslation } from "react-i18next";
 import BrandLarge from "../components/brand-lg";
-// import { useWindowEventListener } from '../shared/hooks/browser.hook';
-// import { useTheme } from '@material-ui/core/styles';
-// import useMediaQuery from '@material-ui/core/useMediaQuery';
-// position="relative" width="100%" minHeight="100vh"
-//         display="flex" justifyContent="center" alignItems="center">
+
 const Section: ComponentType<any> = styled.section.attrs<{minHeight: string}>(
   ({ minHeight }) => ({
     style: { minHeight: minHeight ? `${minHeight}` : 'unset' }
@@ -35,21 +31,16 @@ const Section: ComponentType<any> = styled.section.attrs<{minHeight: string}>(
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
   const testimonialRef = useRef<any>();
-  // const theme = useTheme();
-  // const screenExtraLarge = useMediaQuery(theme.breakpoints.only('xl'));
-  // const screenLarge = useMediaQuery(theme.breakpoints.only('lg'));
-  // const screenMedium = useMediaQuery(theme.breakpoints.only('md'));
-  // const screenSmall = useMediaQuery(theme.breakpoints.only('sm'));
-  // const screenExtraSmall = useMediaQuery(theme.breakpoints.only('xs'));
-  // const screenNarrow = useMediaQuery('(max-width:340px)');
-  
+  const renders = useRef(0);
   return (
     <>
       <SEO title="Home" lang={i18n.language} />
+      <Box position="fixed" top={0}>
+        {/* <div>scrollY: {scrollY}</div> */}
+        <div>renders: {renders.current++}</div>
+      </Box>
       <Section id="intro" className="section" minHeight="80vh">
-        
-          <IntroSectionContent/>
-        
+        <IntroSectionContent/>
       </Section>
 
       <Section id="about" className="section alt-color">

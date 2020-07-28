@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, ComponentType } from "react";
 import styled from "styled-components";
 import Box from '@material-ui/core/Box';
-import {useWindowEventListener} from '../hooks/browser.hook';
+import {useWindowEventListener} from '../browser/browser.hook';
 
 /** */
 const TallOuterContainer: ComponentType<any> = styled.div.attrs<any>(
@@ -13,12 +13,12 @@ const TallOuterContainer: ComponentType<any> = styled.div.attrs<any>(
   width: 100%;
 `;
 
-const StickyHeader: ComponentType<any> = styled.div`
-  position: sticky;
-  top: 0;
-  width: 100%;
-  overflow-x: hidden;
-`;
+// const StickyHeader: ComponentType<any> = styled.div`
+//   position: sticky;
+//   top: 0;
+//   width: 100%;
+//   overflow-x: hidden;
+// `;s
 
 const StickyInnerContainer: ComponentType<any> = styled.div`
   position: sticky;
@@ -70,7 +70,7 @@ const toggleStickyHeader = (
   containerRef: React.RefObject<any>,
   scrollBoxRef: React.RefObject<any>,
   setStickyHeaderStatus: React.Dispatch<React.SetStateAction<boolean>>
-) => {  
+) => {
   const objectWidth = scrollBoxRef.current.scrollWidth;
   const dynamicHeight = calcDynamicHeight(objectWidth);
 
@@ -112,37 +112,8 @@ const HorizontalSection: ComponentType<HorizontalSectionProps> = ({
   useWindowEventListener('resize', onWindowResize);
   useWindowEventListener('scroll', onScrollChange);
 
-  // const shouldStickHeader = !!dynamicHeight && !!translateX;
-
-  // console.log(containerRef, objectRef, 'dynamicHeight', dynamicHeight, 'translateX', -translateX, dynamicHeight+translateX)
-
   return (
     <>
-      {/* {shouldStickHeader ? 'sticky' : 'absolute'} */}
-      {/* {containerRef?.current?.offsetTop} */}
-      {/* {containerRef.current.offsetTop} */}
-      {/* <Box></Box> */}
-      {/* <VerticalTranslateContainer translateY={-translateX}>
-        <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-          <h2>Services</h2>
-          <p>This sections displays services provided by the business</p>
-          
-        </Box>
-      </VerticalTranslateContainer> */}
-      {/* <Box position="relative"> */}
-        {/* <Box position={shouldStickHeader ? 'sticky' : 'relative'} top={0}>
-          <Box position="relative">
-            <VerticalTranslateContainer translateY={shouldStickHeader ? 0 : -translateX - headerRef.current.clientHeight} ref={headerRef}>
-              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                <h2>Services</h2>
-                <p>This sections displays services provided by the business</p>
-                
-              </Box>  
-            </VerticalTranslateContainer>
-          </Box>
-        </Box> */}
-      {/* </Box> */}
-      
       <TallOuterContainer dynamicHeight={dynamicHeight}>
         <Box position={shouldStickHeader ? 'sticky' : 'relative'} top={0} width="100%">
           {/* <Box position="relative" width="100%"> */}
@@ -150,8 +121,7 @@ const HorizontalSection: ComponentType<HorizontalSectionProps> = ({
               <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
                 <h2>Services</h2>
                 <p>This sections displays services provided by the business</p>
-                
-              </Box>  
+              </Box>
             {/* </VerticalTranslateContainer>
           </Box> */}
         </Box>
@@ -160,10 +130,8 @@ const HorizontalSection: ComponentType<HorizontalSectionProps> = ({
             {children}
           </HorizontalTranslateContainer>
         </StickyInnerContainer>
-        
       </TallOuterContainer>
     </>
-    
   );
 };
 

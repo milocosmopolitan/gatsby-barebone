@@ -43,7 +43,7 @@ const IndexPage = () => {
         <IntroSectionContent/>
       </Section>
 
-      <Section id="about" className="section alt-color">
+      <Section id="about" className="section">
         {/* <BrandLarge triggerAt={300}>
           <Logo/>
         </BrandLarge> */}
@@ -62,17 +62,17 @@ const IndexPage = () => {
         {/* <AboutSectionContent/> */}
       </Section>
 
-      <Section id="services" className="section" minHeight="100vh">
+      <Section id="services" className="section alt-color" minHeight="100vh">
         <ServiceSectionContent/>
       </Section>
 
-      <Section id="testimonial" className="section alt-color" ref={testimonialRef}>
+      <Section id="testimonial" className="section" ref={testimonialRef}>
         <Box paddingTop="100px" paddingBottom="100px">
           <TestimonialsSectionContent containerRef={testimonialRef}/>
         </Box>
       </Section>
 
-      <Section id="contact" className="section">
+      <Section id="contact" className="section alt-color">
         <Box paddingTop="100px" paddingBottom="100px">
           <ContactSectionContent/>
         </Box>

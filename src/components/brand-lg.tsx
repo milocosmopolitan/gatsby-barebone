@@ -11,7 +11,6 @@ const BrandContainer: ComponentType<any> = styled.div.attrs<any>(({ justifyConte
   top: 15px;
   display: flex;
   justify-content: start;
-  will-change: transform;
 `;
 
 const TransformContainer: ComponentType<any> = styled.div.attrs<any>(({ translateY, translateX, scale }) => ({
@@ -19,7 +18,7 @@ const TransformContainer: ComponentType<any> = styled.div.attrs<any>(({ translat
     transform: `translate(${translateX || 0}px, ${translateY || 0}px) scale(${scale || 1})`
   }
 }))`
-  transition: transform ease-in,
+  transition: transform ease-in;
   will-change: transform;
 `;
 
@@ -32,18 +31,22 @@ function DesktopBrand(props: any) {
   const translateX = useScrollAnimation([{
     start: vh * 0.25,
     end: vh * 0.7,
-    transform: { from: 0, to: -vw * 0.3 }
+    transform: { from: 0, to: -vw * 0.25 }
   },{
     start: vh * 1.3,
     end: vh * 1.6,
-    transform: { from: -vw * 0.3, to: -vw * 0.5 + 100 }
+    transform: { from: -vw * 0.25, to: -vw * 0.5 + 100 }
   }], scrollY)
 
 
   const translateY = useScrollAnimation([{
-    start: vh * 0.4,
-    end: vh * 1.5,
-    transform: { from: vh * 0.8, change: -vh * 0.8, limit: 0 }
+    start: vh * 0,
+    end: vh * 0.4,
+    transform: { from: vh * 0.8, change: -vh * 0.3, limit: 0 }
+  },{
+    start: vh * 0.8,
+    end: vh * 1.6,
+    transform: { from: vh * 0.5, change: -vh * 0.5, limit: 0 }
   }], scrollY)
 
   const scale = useScrollAnimation([{

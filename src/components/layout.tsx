@@ -13,11 +13,13 @@ import LanguageSelector from "./language-selector";
 import WithI18Next from "../i18n/i18next.hoc";
 import { Link } from "react-scroll";
 import WithMediaQuery from "../shared/media-query.provider";
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme, ThemeProvider } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+// import Logo from '../assets/No-logo.svg';
 
 import BackgroundImage from 'gatsby-background-image'
 import { WithScrollProvider } from "../shared/scroll/scroll.provider";
+import theme from "../typography";
 
 // import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 // const useStyles = makeStyles((theme: Theme) =>
@@ -71,38 +73,23 @@ const Layout = (props: ILayoutProps) => {
   //   }
   // `);
 
-  const { background } = useStaticQuery(graphql`
-    query {
-      background: file(relativePath: { eq: "bg-retro-noise.png" }) {
-        childImageSharp {
-          fluid(quality: 60, maxWidth: 300) {
-            ...GatsbyImageSharpFluid_withWebp_tracedSVG
-          }
-        }
-      }
-    }
-  `)
+  // const { background } = useStaticQuery(graphql`
+  //   query {
+  //     background: file(relativePath: { eq: "bg-retro-noise.png" }) {
+  //       childImageSharp {
+  //         fluid(quality: 60, maxWidth: 200) {
+  //           ...GatsbyImageSharpFluid_withWebp_tracedSVG
+  //         }
+  //       }
+  //     }
+  //   }
+  // `)
 
   const locale: any|null = props.pageContext.locale;
   const value = useMemo(() => ({ locale }), [locale]);
 
-  // const theme = useTheme();
-  // const xl = useMediaQuery(theme.breakpoints.only('xl'));
-  // const lg = useMediaQuery(theme.breakpoints.only('lg'));
-  // const md = useMediaQuery(theme.breakpoints.only('md'));
-  // const sm = useMediaQuery(theme.breakpoints.only('sm'));
-  // const xs = useMediaQuery(theme.breakpoints.only('xs'));
-  // const narrow = useMediaQuery('(max-width:340px)');
-
-  // const breakpoints = useMemo(() => ({ xl, lg, md, sm, xs, narrow }), [
-  //   xl, lg, md, sm, xs, narrow
-  // ]);
-
-  // const classes = useStyles();
-
-  console.log("Layout | props", props)
-
   return (
+    <ThemeProvider theme={theme}>
       <LocaleContext.Provider value={value}>
         
         <Header>
@@ -131,12 +118,14 @@ const Layout = (props: ILayoutProps) => {
           <LanguageSelector/>
         </Header>
 
-        {/* <BackgroundImage
-          Tag="main"
+        <main>
+          {props.children}
+          {/* <BackgroundImage
+          Tag="div"
           // To style via external CSS see layout.css last examples:
           // className="test"
-          fluid={imageData}
-          backgroundColor={`#040e18`}
+          fluid={background.childImageSharp.fluid}
+          backgroundColor={`#184859`}
           // Title get's passed to both container and noscriptImg.
           title="gbitest"
           style={{
@@ -144,6 +133,8 @@ const Layout = (props: ILayoutProps) => {
             backgroundSize: '300px',
             // backgroundPosition: '',
             backgroundRepeat: 'repeat',
+            height: '100%',
+            width: '100%',
           }}
           // To "force" the classic fading in of every image (especially on
           // imageData change for fluid / fixed) by setting `soft` on `fadeIn`:
@@ -155,20 +146,20 @@ const Layout = (props: ILayoutProps) => {
           id="gbitest"
           role="img"
           aria-label="gbitest"
-        > */}
-        <main>
-          {props.children}
+          
+        /> */}
         </main>
-          {/* {props.children} */}
-        {/* </BackgroundImage> */}
+
+        
         
         <Footer>
+          
           © {new Date().getFullYear()}, Built with
           {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </Footer>
       </LocaleContext.Provider>
-    
+    </ThemeProvider>
   )
 }
 

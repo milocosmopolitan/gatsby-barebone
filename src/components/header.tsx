@@ -8,22 +8,21 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import Slide from '@material-ui/core/Slide';
 import Grow from '@material-ui/core/Grow';
 import Brand from './brand';
-import { IconButton, Button, useMediaQuery, useTheme } from '@material-ui/core';
-import { useStaticQuery, graphql } from 'gatsby';
+import { IconButton } from '@material-ui/core';
 import { useLocation } from '../shared/hooks/location.hook';
-import BrandLarge from './brand-lg';
 import Logo from '../assets/No-logo.svg';
+import { useBackgroundDarkness } from '../shared/background-check';
 
-function GrowOnScroll(props: any) {
-  const { children } = props;
-  const trigger = useScrollTrigger({ target: typeof window !== `undefined` ? window : undefined });
+// function GrowOnScroll(props: any) {
+//   const { children } = props;
+//   const trigger = useScrollTrigger({ target: typeof window !== `undefined` ? window : undefined });
 
-  return (
-    <Grow appear={true} in={trigger}>
-      {children}
-    </Grow>
-  );
-}
+//   return (
+//     <Grow appear={true} in={trigger}>
+//       {children}
+//     </Grow>
+//   );
+// }
 
 function HideOnScroll(props: any) {
   const { children } = props;
@@ -38,54 +37,25 @@ function HideOnScroll(props: any) {
 
 export default function HideAppBar(props: any) {
   const appBarRef = useRef(null);
-
   const {location} = useLocation();
 
-  console.log(location.pathname)
-  // const { sitePage } = useStaticQuery(
-  //   graphql`
-  //     query {
-  //       sitePage {
-  //         id
-  //         path
-  //       }
-  //     }
-  //   `
-  // )
-  // Just in case if we ever need to update UI based on location
-  // const DynamicPageBrand = location.pathname === '/'
-  //   ? () : ()
-  // const theme = useTheme();
-  // const md = useMediaQuery(theme.breakpoints.only('md'));
-
-  // const ResponsiveBrand = md ? (
-  //   <Brand parentRef={appBarRef}>
-  //     <Link to="intro"
-  //       spy={true}
-  //       smooth={true}
-  //       offset={-70}
-  //       duration={500}>
-  //       LOGO 
-  //     </Link>
-  //   </Brand>
-  // ) : (
-  //   <BrandLarge>
-  //   </BrandLarge>
-  // );
+  const bgDarkness = useBackgroundDarkness(appBarRef, ['.section'], 1);
 
   return (
     <>
-      <AppBar color="transparent" ref={appBarRef} elevation={0}>
+      <AppBar color="transparent" className={(bgDarkness <= 0.5 ? 'background-checked-dark' : 'background-checked-light')} ref={appBarRef} elevation={0}>
 
 
         <Box position="absolute" width="100%" top="15px" display="flex" justifyContent="start">
           <Brand parentRef={appBarRef} breakpoint="sm">
             <Link to="intro"
+              style={{position: 'relative', width: "120px", height: '40px', display: "flex" }}
               spy={true}
               smooth={true}
               offset={-70}
               duration={500}>
-              <Logo height="40px" width="120px" /> 
+              <Logo style={{position: 'absolute', top: 0, left: 0, fill: (bgDarkness <= 0.5 ? 'white' : 'black')}} height="40px" width="120px" /> 
+              {/* <Logo className="dark-svg" style={{position: 'absolute', top: 0, left: 0, display: (bgDarkness > 0.5 ? 'block' : 'none')}} height="40px" width="120px" />  */}
             </Link>
           </Brand>
         </Box>
@@ -97,6 +67,7 @@ export default function HideAppBar(props: any) {
               className="mobile-nav"
               position="absolute"
               right="15px"
+              color={(bgDarkness <= 0.5 ? 'white' : 'black')}
               display={{ xs: 'block', sm: 'block', md: 'none' }}>
               <IconButton id="collapsed-nav" className="nav-collapsed" color="inherit" aria-label="menu">
                 <MenuIcon />
@@ -107,6 +78,7 @@ export default function HideAppBar(props: any) {
 
             <Box component="div"
               className="desktop-nav"
+              color={(bgDarkness <= 0.5 ? 'white' : 'black')}
               display={{ xs: 'none', sm: 'none', md: 'block' }}
               position="absolute" right="15px">
               {props.children}

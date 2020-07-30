@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useScrollContext } from "./scroll/scroll.provider";
 import { useDebounce } from "./hooks/debounce.hook";
+import { DomUtils } from "./dom/dom.utils";
+import { BrowserUtils } from "./browser/browser.utils";
 
 // /*
 //   * Throttle events
@@ -30,7 +32,7 @@ function parseColor(input: string) {
   * Check for String, Element or NodeList
   */
 function getElements(selector: string|any, convertToImages?: boolean) {
-  const elements = document.querySelectorAll(selector);
+  const elements = DomUtils.HasDocument() && document.querySelectorAll(selector);
   return Array.prototype.slice.call(elements);
 }
 
@@ -57,7 +59,10 @@ export function useBackgroundDarkness<T extends HTMLBaseElement> (
   function check() {
     const currentAnchor: HTMLBaseElement = elements.find((elem: HTMLBaseElement) => isInside(self, elem));
     if (currentAnchor) {
-      const backgroundColor = window.getComputedStyle(currentAnchor).backgroundColor;
+      const backgroundColor = BrowserUtils.IsClient() && window.getComputedStyle(currentAnchor).backgroundColor;
+      if (!backgroundColor) {
+        return 0;
+      }
       const parsedColor = parseColor(backgroundColor);
       return (parsedColor[0]/255 + parsedColor[1]/255 + parsedColor[2]/255) / 3;
     }

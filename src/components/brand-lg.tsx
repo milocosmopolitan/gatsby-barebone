@@ -2,6 +2,7 @@ import React, { ComponentType } from 'react';
 import styled from "styled-components";
 import { useScrollContext } from '../shared/scroll/scroll.provider';
 import { useScrollAnimation } from '../shared/scroll/scroll.animation';
+import { BrowserUtils } from '../shared/browser/browser.utils';
 
 const BrandContainer: ComponentType<any> = styled.div.attrs<any>(({ justifyContent }) => ({
   style: { justifyContent: justifyContent || 'center' }
@@ -24,9 +25,8 @@ const TransformContainer: ComponentType<any> = styled.div.attrs<any>(({ translat
 function DesktopBrand(props: any) {
 
   const {scrollY} = useScrollContext();
-  const vh = window.innerHeight;
-  const vw = window.innerWidth;
-
+  const { height: vh, width: vw } = BrowserUtils.GetViewSize();
+  
   const translateX = useScrollAnimation([{
     start: vh * 0.25,
     end: vh * 0.7,

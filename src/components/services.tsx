@@ -1,18 +1,14 @@
-import React, { useState, useEffect, ComponentType, useRef } from 'react';
-import Button from '@material-ui/core/Button';
+import React, { useState, useEffect } from 'react';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import HorizontalScroll from '../shared/components/horizontal-section';
-import styled from "styled-components";
+import IconButton from '@material-ui/core/IconButton';
+import ScrollDownIndicator from './scroll-down-indicator';
+import ServiceCard, {IService} from './services-card';
+import { BrowserUtils } from '../shared/browser/browser.utils';
+import { CSSTransition } from 'react-transition-group';
+import { Drawer, Box, Typography } from '@material-ui/core';
 import { useScrollContext } from '../shared/scroll/scroll.provider';
 import { useTranslation } from 'react-i18next';
-import IconButton from '@material-ui/core/IconButton';
-import Close from '@material-ui/icons/Close';
-import ArrowBack from '@material-ui/icons/ArrowBack';
-import { Drawer, Box, Typography } from '@material-ui/core';
-import ServiceCard, {IService} from './services-card';
-import ScrollDownIndicator from './scroll-down-indicator';
-import { Transition, CSSTransition } from 'react-transition-group';
-// import transitions from '@material-ui/core/styles/transitions';
-
 
 const SERVICES: IService[] = [
   {
@@ -48,78 +44,16 @@ const SERVICES: IService[] = [
       "5": 'Tax projections and compliance for sale of real estate property, 1231 exchanges, and acquisitions of Qualified Opportunity Zone(QOZ) properties'
     }
   }
-]
-
-// const ServiceCards = React.memo<any>(() =>
-//   SERVICES
-//     .map((service, i) => (
-//       <ServiceCard key={`service-card-${i}`}>
-//         <Box padding={4}>
-//           <Typography variant="h4">
-//             {service.name}
-//           </Typography>
-          
-          
-//           {(Object.keys(service.details).map((key: string, index: number) => (
-//               <Typography key={key} variant="body1">
-//                 {(service.details as any)[index+1]}
-//               </Typography>
-//           )))}
-
-//           <Button variant="contained" onClick={toggleDrawer(true)} aria-label={t('about.drawer.openButton')}>
-//             {t('about.drawer.openButton')}
-//           </Button>
-//         </Box>
-        
-//       </ServiceCard>
-//     ))
-// );
-
-// const VerticalTranslateContainer: ComponentType<any> = styled.div.attrs<any>(({ translateY }) => ({
-//   style: { transform: `translateY(${translateY}px)` }
-// }))`
-//   width: 100%;
-//   transition: transform 60ms linear;
-//   will-change: transform;
-// `;
-
-interface ServiceSectionContentProps {
-  children?: React.ReactNode;
-  containerRef: React.RefObject<any>
-}
+];
 
 const scrollIndicatorDuration = 300;
-const pricingTableDuration = 500;
-
-const defaultStyle = {
-  scrollIndicator: {
-    transition: `opacity ${scrollIndicatorDuration}ms ease-in-out`,
-  },
-  pricingTable: {
-    transition: `transform ${pricingTableDuration}ms ease-in-out`,
-  }
-}
-
-const scrollIndicatorTransitionStyles: {[key: string]: object} = {
-  entering: { opacity: 1 },
-  entered:  { opacity: 1 },
-  exiting:  { opacity: 0 },
-  exited:   { opacity: 0 },
-};
-
-const pricingTableTransitionStyles: {[key: string]: object} = {
-  entering: { transform: 'translateX(0)' },
-  entered:  { transform: 'translateX(0)' },
-  exiting:  { transform: 'translateX(100%)' },
-  exited:   { transform: 'translateX(100%)' },
-};
 
 function triggerAnimation(
   ref: React.RefObject<any>,
   scrollY: number,
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>
 ) {
-  const vh = window.innerHeight;
+  const vh = BrowserUtils.GetViewSize().height;
   const yPos: number = ref.current.offsetTop + ref.current.offsetHeight - vh;
   setTrigger(scrollY <= yPos)
 }
@@ -127,16 +61,9 @@ function triggerAnimation(
 export const ServiceSectionContent = (props: any) => {
   const { t } = useTranslation();
   const { scrollY } = useScrollContext();
-  // const [ positionType, setPositionType ] = useState<PositionVariant>('absolute');
-  // const [ translateY, setTranslateY ] = useState<number>(0);
-
-  // const containerRef = useRef(null);
-  // const [ leftPos, setLeftPos ] = useState<number>(0);
-
-  // console.log(horizontalScrollContainerRef)
-
-  const headerHeight = window.innerHeight * 0.2;
-  const bodyHeight = window.innerHeight * 0.8;
+  const { height: vh, width: vw } = BrowserUtils.GetViewSize();
+  const headerHeight = vh * 0.2;
+  const bodyHeight = vh * 0.8;
 
   const [trigger, setTrigger] = useState(false);
 
@@ -153,8 +80,6 @@ export const ServiceSectionContent = (props: any) => {
     ) {
       return;
     }
-
-    // console.log('toggleDrawer', open)
     setActive(id);
     setState(open);
   }
@@ -165,8 +90,7 @@ export const ServiceSectionContent = (props: any) => {
 
   return (
     <>
-      
-      <Box height={window.innerHeight} width="100%" position="sticky" top="0">
+      <Box height={vh} width="100%" position="sticky" top="0">
         <Box width="100%"
           display="flex" flexDirection="column" justifyContent="center" alignItems="center"
           style={{
@@ -189,20 +113,10 @@ export const ServiceSectionContent = (props: any) => {
         <CSSTransition in={trigger} timeout={scrollIndicatorDuration} classNames="scroll-indicator">
           <ScrollDownIndicator />
         </CSSTransition>
-        {/* <Transition in={trigger} timeout={scrollIndicatorDuration}>
-          {(state: string) => (
-            <div style={{
-              ...defaultStyle.scrollIndicator,
-              ...scrollIndicatorTransitionStyles[state]
-            }}>
-              <ScrollDownIndicator />
-            </div>
-          )}
-        </Transition> */}
       </Box>
 
       <Box position="relative" marginTop={-bodyHeight+'px'}>
-        <HorizontalScroll width={window.innerWidth} height={window.innerHeight-headerHeight} top={headerHeight} leftPos={0}>
+        <HorizontalScroll width={vw} height={vh-headerHeight} top={headerHeight} leftPos={0}>
           <Box
             display="flex" flexDirection="row" flexWrap="nowrap"
             justifyContent="flex-start" alignItems="center"
@@ -217,34 +131,6 @@ export const ServiceSectionContent = (props: any) => {
           </Box>
         </HorizontalScroll>
       </Box>
-        {/* <Transition in={opened} timeout={pricingTableDuration}>
-          {(state: string) => (
-            <div style={{
-              position: 'fixed',
-              width: '100vw',
-              height: '100vh',
-              top:0,
-              left:0,
-              zIndex: 1100,
-              background: 'white',
-              ...defaultStyle.pricingTable,
-              ...pricingTableTransitionStyles[state]
-            }}>
-            <Box id="price-table-container" component="aside" position="relative" width="100vw">
-              <Box id="price-table-header" component="header"
-                position="relative" width="100%" display="flex" justifyContent="flex-end">
-                <IconButton onClick={toggleDrawer(false)} aria-label={t('about.drawer.closeButton')}>
-                  <Close />
-                </IconButton>
-              </Box>
-              <Box component="main" position="relative" width="100%" display="flex">
-                {active}
-              </Box>
-            </Box>
-            </div>
-          )}
-        </Transition> */}
-      
 
       <Drawer anchor='right' open={opened} onClose={toggleDrawer(false)}
         SlideProps={{timeout: 1000}}

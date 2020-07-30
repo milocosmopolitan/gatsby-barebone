@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { useScrollContext } from "../shared/scroll/scroll.provider";
 import { useStaticQuery, graphql } from "gatsby"
 import { useTranslation } from 'react-i18next';
+import { BrowserUtils } from "../shared/browser/browser.utils";
+import { ScrollUtils } from "../shared/scroll/scroll.utils";
 
 const TESTIMONIALS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales velit vitae ante elementum cursus id euismod nulla. Sed volutpat lacus vitae mauris commodo rhoncus. Vivamus non lorem sed ligula euismod dictum.',
@@ -20,7 +22,7 @@ const TESTIMONIALS = [
 const VerticalTranslateContainer: ComponentType<any> = styled.div.attrs<any>(({ translateY }) => ({
   style: { transform: `translateY(${translateY}px)` }
 }))`
-  transition: transform 60ms ease-in;
+  // transition: transform 60ms ease-in;
   will-change: transform;
 `;
 
@@ -28,11 +30,12 @@ function updateTranslateY(
   ref: React.RefObject<any>,
   setTranslateY: React.Dispatch<React.SetStateAction<number>>
 ) {
-  const vh = window.innerHeight;
+  const vh = BrowserUtils.GetViewSize().height;
   const startingY: number = ref.current.offsetTop - vh;
+  const scrollY: number = ScrollUtils.GetScrollY();
 
-  if (window.scrollY > startingY) {
-    const offset = ref.current.clientHeight - ((window.scrollY - startingY) * 0.8);
+  if (scrollY > startingY) {
+    const offset = ref.current.clientHeight - ((scrollY - startingY) * 0.8);
     setTranslateY(offset);
   }
 }
@@ -40,7 +43,6 @@ function updateTranslateY(
 const TestimonialBlockQuote = (props: any) => {
   return (
     <Box className="block-quote" marginBottom={8} marginRight={4} marginLeft={4} paddingLeft={3} position="relative">
-      
       <Box className="quotation right-quote headline-2" position="absolute" top="0" left="-20px">
         &ldquo;
       </Box>
@@ -50,22 +52,22 @@ const TestimonialBlockQuote = (props: any) => {
       <Box className="quotation left-quote headline-2" position="absolute" bottom="0" right="-20px">
         &bdquo;
       </Box>
-      
     </Box>
   )
 }
 
-export const Testimonials = React.memo(() => (
+export const Testimonials = () => (
   <>
     {TESTIMONIALS.map((testimonial, i) => <TestimonialBlockQuote key={i} testimonial={testimonial} />)}
   </>
-))
+)
 
 export const TestimonialsSectionContent = (props: any) => {
   const { scrollY } = useScrollContext();
   const { t } = useTranslation();
 
-  const initialY = window.innerHeight * 0.8;
+  const vh = BrowserUtils.GetViewSize().height;
+  const initialY = BrowserUtils.IsClient() && vh * 0.8;
   const [translateY, setTranslateY] = useState<number>(initialY);
 
   const onScroll = () => updateTranslateY(props.containerRef, setTranslateY)

@@ -18,7 +18,7 @@ export class ScrollUtils {
 
       const _isClient = BrowserUtils.IsClient();
       const _hasDocument = DomUtils.HasDocument();
-      const _hasScrollYProp = !!window.scrollY;  // No IE8
+      const _hasScrollYProp = _isClient &&!!window.scrollY;  // No IE8
 
       return _isClient && _hasScrollYProp
         ? window.scrollY

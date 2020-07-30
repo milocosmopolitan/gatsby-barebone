@@ -1,5 +1,5 @@
 // import { Subject } from 'rxjs';
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { ScrollUtils } from './scroll.utils';
 import { StateHook } from '../common.types';
 

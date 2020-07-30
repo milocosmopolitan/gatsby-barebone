@@ -3,6 +3,7 @@ import { Transition } from 'react-transition-group';
 import { transformCss } from '../utils/animation/transform';
 import styled from "styled-components";
 import { useScrollContext } from '../shared/scroll/scroll.provider';
+import { ScrollUtils } from '../shared/scroll/scroll.utils';
 
 const duration = 300;
 
@@ -30,7 +31,7 @@ const triggerAnimation = (
   ref: React.RefObject<any>,
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const conditionMatches = window.scrollY > ref.current.clientHeight;
+  const conditionMatches = ScrollUtils.GetScrollY() > ref.current.clientHeight;
   setTrigger(conditionMatches);
 }
 

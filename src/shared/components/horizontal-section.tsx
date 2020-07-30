@@ -124,7 +124,7 @@ const HorizontalSection: ComponentType<any> = (props) => {
 
   // props.parentRef
 
-  console.log(props)
+  // console.log(props)
   return (
     <>
       <TallOuterContainer dynamicHeight={dynamicHeight}>

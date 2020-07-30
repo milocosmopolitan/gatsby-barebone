@@ -17,6 +17,10 @@
       "closeButton": "Back to main page"
     }
   },
+  "contact": {
+    "heading": "Let's Talk",
+    "subHeading": "We are here to help."
+  },
   "testimonial": {
     "heading": "Testimonials",
     "subHeading": "This is why we do, what we do"

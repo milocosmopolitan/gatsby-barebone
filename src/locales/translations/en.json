@@ -17,6 +17,10 @@
       "closeButton": "Back to main page"
     }
   },
+  "testimonial": {
+    "heading": "Testimonials",
+    "subHeading": "This is why we do, what we do"
+  },
   "services": {
     "heading": "We are the expert!",
     "subHeading": "Here are the list of things we specialized in...",

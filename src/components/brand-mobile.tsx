@@ -35,7 +35,7 @@ const triggerAnimation = (
 }
 
 const MobileBrand: ComponentType<any> = (props: any) => {
-  const renders = useRef(0);
+  // const renders = useRef(0);
   const {scrollY} = useScrollContext();
   const [trigger, setTrigger] = useState(false);
   const onScroll = () => triggerAnimation(props.parentRef, setTrigger);
@@ -58,7 +58,7 @@ const MobileBrand: ComponentType<any> = (props: any) => {
             ...defaultStyle,
             ...transitionStyles[state]
           }}>
-            {props.children} {renders.current++}
+            {props.children}
           </div>
         )}
       </Transition>

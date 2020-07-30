@@ -18,7 +18,6 @@ const TransformContainer: ComponentType<any> = styled.div.attrs<any>(({ translat
     transform: `translate(${translateX || 0}px, ${translateY || 0}px) scale(${scale || 1})`
   }
 }))`
-  transition: transform ease-in;
   will-change: transform;
 `;
 

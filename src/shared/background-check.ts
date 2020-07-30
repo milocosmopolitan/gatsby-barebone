@@ -31,12 +31,6 @@ function parseColor(input: string) {
   */
 function getElements(selector: string|any, convertToImages?: boolean) {
   const elements = document.querySelectorAll(selector);
-
-  // if (convertToImages) {
-  //   elements = checkForCSSImages(elements);
-  // }
-  // elements = Array.prototype.slice.call(elements);
-
   return Array.prototype.slice.call(elements);
 }
 
@@ -62,8 +56,6 @@ export function useBackgroundDarkness<T extends HTMLBaseElement> (
 
   function check() {
     const currentAnchor: HTMLBaseElement = elements.find((elem: HTMLBaseElement) => isInside(self, elem));
-
-    console.log(currentAnchor)
     if (currentAnchor) {
       const backgroundColor = window.getComputedStyle(currentAnchor).backgroundColor;
       const parsedColor = parseColor(backgroundColor);
@@ -86,11 +78,7 @@ export function useBackgroundDarkness<T extends HTMLBaseElement> (
     throttleDelay = setTimeout(callback, 200);
   }
 
-  // const initialState = check();
-  // console.log(initialState);
   const [status, setStatus] = useState(initialValue);
-
-  
 
   function checkBackground() {
     if(!tick) {

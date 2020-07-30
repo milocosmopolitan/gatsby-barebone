@@ -19,7 +19,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import BackgroundImage from 'gatsby-background-image'
 import { WithScrollProvider } from "../shared/scroll/scroll.provider";
-import theme from "../typography";
+import theme from "../theme";
+import { useTranslation } from "react-i18next";
+import { Typography } from "@material-ui/core";
 
 // import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 // const useStyles = makeStyles((theme: Theme) =>
@@ -63,56 +65,41 @@ interface ILayoutProps {
 }
 
 const Layout = (props: ILayoutProps) => {
-  // const data = useStaticQuery(graphql`
-  //   query SiteTitleQuery {
-  //     site {
-  //       siteMetadata {
-  //         title
-  //       }
-  //     }
-  //   }
-  // `);
-
-  // const { background } = useStaticQuery(graphql`
-  //   query {
-  //     background: file(relativePath: { eq: "bg-retro-noise.png" }) {
-  //       childImageSharp {
-  //         fluid(quality: 60, maxWidth: 200) {
-  //           ...GatsbyImageSharpFluid_withWebp_tracedSVG
-  //         }
-  //       }
-  //     }
-  //   }
-  // `)
-
   const locale: any|null = props.pageContext.locale;
   const value = useMemo(() => ({ locale }), [locale]);
+  
+  const { t } = useTranslation();
 
   return (
     <ThemeProvider theme={theme}>
       <LocaleContext.Provider value={value}>
-        
         <Header>
           <Link to="about"
             className="nav-link"
             spy={true}
             smooth={true}
             offset={-70}>
-            About
+            <span className="MuiTypography-root MuiTypography-body1">
+              {t('header.navigation.about')}
+            </span>
           </Link>
           <Link to="services"
             className="nav-link"
             spy={true}
             smooth={true}
             offset={-70}>
-            Services
+            <span className="MuiTypography-root MuiTypography-body1">
+              {t('header.navigation.services')}
+            </span>
           </Link>
           <Link to="contact"
             className="nav-link"
             spy={true}
             smooth={true}
             offset={-70}>
-            Contact
+            <span className="MuiTypography-root MuiTypography-body1">
+              {t('header.navigation.contact')}
+            </span>
           </Link>
 
           <LanguageSelector/>
@@ -120,44 +107,8 @@ const Layout = (props: ILayoutProps) => {
 
         <main>
           {props.children}
-          {/* <BackgroundImage
-          Tag="div"
-          // To style via external CSS see layout.css last examples:
-          // className="test"
-          fluid={background.childImageSharp.fluid}
-          backgroundColor={`#184859`}
-          // Title get's passed to both container and noscriptImg.
-          title="gbitest"
-          style={{
-            // Defaults are overwrite-able by setting one of the following:
-            backgroundSize: '300px',
-            // backgroundPosition: '',
-            backgroundRepeat: 'repeat',
-            height: '100%',
-            width: '100%',
-          }}
-          // To "force" the classic fading in of every image (especially on
-          // imageData change for fluid / fixed) by setting `soft` on `fadeIn`:
-          // fadeIn={`soft`}
-          // To be able to use stacking context changing elements yourself,
-          // set this to true to disable the "opacity hack":
-          // preserveStackingContext={true}
-          // You can "safely" (look them up beforehand ; ) add other props:
-          id="gbitest"
-          role="img"
-          aria-label="gbitest"
-          
-        /> */}
         </main>
-
-        
-        
-        <Footer>
-          
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </Footer>
+        <Footer />
       </LocaleContext.Provider>
     </ThemeProvider>
   )

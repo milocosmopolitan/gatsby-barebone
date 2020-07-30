@@ -1,4 +1,65 @@
 {
+  "header": {
+    "languageSelector": "Select Language: English",
+    "navigation": {
+      "about": "About",
+      "services": "Services",
+      "contact": "Contact"
+    }
+  },
+  "about": {
+    "company": {
+      "heading": "We are",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut massa tellus. Sed nunc felis, tristique eget consequat a, commodo sit amet odio. Nunc ut tellus non ipsum rhoncus condimentum."
+    },
+    "drawer": {
+      "openButton": "Learn more",
+      "closeButton": "Back to main page"
+    }
+  },
+  "services": {
+    "heading": "We are the expert!",
+    "subHeading": "Here are the list of things we specialized in...",
+    "drawer": {
+      "openButton": "See pricing",
+      "closeButton": "Back to main page"
+    },
+    "list": {
+      "1": {
+        "name": "Individual Tax",
+        "details": {
+          "1": "Federal and State Income Tax Return Filings",
+          "2": "Year-end Tax Planning and Projections",
+          "3": "Schedule C & E Business Accounting and Bookkeeping",
+          "4": "Quarterly Income Tax Estimates",
+          "5": "Audit Representation before Federal and State Tax Authorities",
+          "6": "Responding to Tax Notices and Inquiries"
+        }
+      },
+      "2": {
+        "name": "Small Businesses",
+        "details": {
+          "1": "Federal and State Income Tax Return Filings",
+          "2": "Year-end Tax Planning and Projections",
+          "3": "Business Advisory Services for startups and scaling businesses",
+          "4": "Monthly Bookkeeping through Quickbooks",
+          "5": "Payroll and Sales Tax Filings",
+          "6": "Audit Representation before Federal and State Tax Authorities",
+          "7": "Responding to Tax Notices and Inquiries"
+        }
+      },
+      "3": {
+        "name": "Real Estate",
+        "details": {
+          "1": "Tax compliance for developers and investors, both commercial and residential",
+          "2": "Tangible Property Regulations and tax treatment of repairs vs improvements",
+          "3": "Depreciation methods, including bonus depreciation and Sec.179 expensing",
+          "4": "Refinancing and Debt Restructuring Tax Implications",
+          "5": "Tax projections and compliance for sale of real estate property, 1231 exchanges, and acquisitions of Qualified Opportunity Zone(QOZ) properties"
+        }
+      }
+    }
+  },
   "home": {
     "title": "Hello world!",
     "subline": "This starter supports internalization",

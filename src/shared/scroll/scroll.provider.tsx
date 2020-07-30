@@ -43,14 +43,14 @@ export function ScrollProvider({children, factor, onScroll}: ScrollProviderProps
     // reset the tick so we can
     // capture the next onScroll
     ticking = false;
+    
     // scrollPercent = $(window).scrollTop() / (scrollDistance - $(window).height());
     setScrollDirection(() => ScrollUtils.GetScrollDirection(previousScrollY));
     setPercent(() => ScrollUtils.GetScrollPercentage());
-    
-    
-    if (onScroll) {
-      onScroll({scrollY, scrollDirection, scrolledPercent})
-    }
+
+    // if (onScroll) {
+    //   onScroll({scrollY, scrollDirection, scrolledPercent})
+    // }
 
     // console.log('update', scrollY, scrollDirection, scrolledPercent);
     previousScrollY = ScrollUtils.GetScrollY();
@@ -67,7 +67,6 @@ export function ScrollProvider({children, factor, onScroll}: ScrollProviderProps
 
   function updateScrollY() {
     setYPos(() => ScrollUtils.GetScrollY());
-    
     requestTick();
     // console.log('updateScrollY', ScrollUtils.GetScrollY(), value);
   }

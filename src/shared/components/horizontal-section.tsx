@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, ComponentType } from "react";
 import styled from "styled-components";
 import Box from '@material-ui/core/Box';
 import {useWindowEventListener} from '../browser/browser.hook';
+import { useScrollContext } from "../scroll/scroll.provider";
 
 /** */
 const TallOuterContainer: ComponentType<any> = styled.div.attrs<any>(
@@ -20,11 +21,10 @@ const TallOuterContainer: ComponentType<any> = styled.div.attrs<any>(
 //   overflow-x: hidden;
 // `;s
 
-const StickyInnerContainer: ComponentType<any> = styled.div`
+const StickyInnerContainer: ComponentType<any> = styled.div.attrs<any>(({ width, height, top }) => ({
+  style: { width: `${width}px`, height: `${height}px`, top: `${top}px` }
+}))`
   position: sticky;
-  top: 15vh;
-  height: 85vh;
-  width: 100%;
   overflow-x: hidden;
 `;
 
@@ -33,6 +33,7 @@ const HorizontalTranslateContainer: ComponentType<any> = styled.div.attrs<any>((
 }))`
   position: absolute;
   height: 100%;
+  transition: transform 60ms linear;
   will-change: transform;
 `;
 
@@ -43,18 +44,19 @@ const VerticalTranslateContainer: ComponentType<any> = styled.div.attrs<any>(({ 
   will-change: transform;
 `;
 
-const calcDynamicHeight = (objectWidth: number) => {
+const calcDynamicHeight = (objectWidth: number, height: number) => {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
-  return objectWidth - vw + vh + 150;
+  return objectWidth - vw + height;
 };
 
 const updateDynamicHeight = (
   ref: React.RefObject<any>,
+  leftPos: number,
   setDynamicHeight: React.Dispatch<React.SetStateAction<number>>
 ) => {
   const objectWidth = ref.current.scrollWidth;
-  const dynamicHeight = calcDynamicHeight(objectWidth);
+  const dynamicHeight = calcDynamicHeight(objectWidth, leftPos);
   setDynamicHeight(dynamicHeight);
 };
 
@@ -66,68 +68,70 @@ const updateTranslateX = (
   setTranslateX(offsetTop);
 };
 
-const toggleStickyHeader = (
-  containerRef: React.RefObject<any>,
-  scrollBoxRef: React.RefObject<any>,
-  setStickyHeaderStatus: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const objectWidth = scrollBoxRef.current.scrollWidth;
-  const dynamicHeight = calcDynamicHeight(objectWidth);
+// const toggleStickyHeader = (
+//   containerRef: React.RefObject<any>,
+//   scrollBoxRef: React.RefObject<any>,
+//   setStickyHeaderStatus: React.Dispatch<React.SetStateAction<boolean>>
+// ) => {
+//   const objectWidth = scrollBoxRef.current.scrollWidth;
+//   const dynamicHeight = calcDynamicHeight(objectWidth);
 
-  const offsetTop = -containerRef.current.offsetTop;
-  const shouldStickHeader = (-offsetTop + containerRef.current.clientHeight) < dynamicHeight; 
+//   const offsetTop = -containerRef.current.offsetTop;
+//   const shouldStickHeader = (-offsetTop + containerRef.current.clientHeight) < dynamicHeight; 
 
-  // console.log('toggleStickyHeader.shouldStickHeader', shouldStickHeader, offsetTop, dynamicHeight, containerRef)
-  setStickyHeaderStatus(shouldStickHeader);
-}
+//   // console.log('toggleStickyHeader.shouldStickHeader', shouldStickHeader, offsetTop, dynamicHeight, containerRef)
+//   setStickyHeaderStatus(shouldStickHeader);
+// }
 
-interface HorizontalSectionProps {
-  children: React.ReactNode;
-  title?: string;
-  description?: string;
-  HeaderComponent?: ComponentType<any>
-}
+// function updateRect(
+//   parentRef: React.RefObject<any>,
+//   setWidth: React.Dispatch<React.SetStateAction<number>>,
+//   seHeight: React.Dispatch<React.SetStateAction<number>>
+// ) {
+//   const rect: DOMRect = parentRef.current.getBoundingClientRect();
+//   setWidth(rect.width);
+//   seHeight(rect.height);
+// }
 
-const HorizontalSection: ComponentType<HorizontalSectionProps> = ({
-  children, title, description
-}) => {
+const HorizontalSection: ComponentType<any> = (props) => {
   const [dynamicHeight, setDynamicHeight] = useState<number>(0);
   const [translateX, setTranslateX] = useState<number>(0);
+  // const [width, setWidth] = useState<number>(0);
+  // const [height, setHeight] = useState<number>(0);
 
-  const [shouldStickHeader, setStickyHeaderStatus] = useState<boolean>(true);
+  const { scrollY } = useScrollContext();
+
+  // const [shouldStickHeader, setStickyHeaderStatus] = useState<boolean>(true);
 
   const containerRef = useRef(null);
   const objectRef = useRef(null);
   // const headerRef = useRef(null);
 
-  useEffect(() => updateDynamicHeight(objectRef, setDynamicHeight), []);
+  
 
-  const onWindowResize = () => updateDynamicHeight(objectRef, setDynamicHeight);
-  const onScrollChange = () => {
-    updateTranslateX(containerRef, setTranslateX);
-    toggleStickyHeader(containerRef, objectRef, setStickyHeaderStatus);
-    // console.log(containerRef, objectRef, 'dynamicHeight', dynamicHeight, 'translateX', -translateX)
-  };
+  const onWindowResize = () => updateDynamicHeight(objectRef, props.height, setDynamicHeight);
+  const onScrollChange = () => updateTranslateX(containerRef, setTranslateX)
+  // const onInit = () => {
+  //   // updateRect(props.parentRef, setWidth, setHeight)
+  //   updateDynamicHeight(objectRef, setDynamicHeight);
+  // }
 
   useWindowEventListener('resize', onWindowResize);
-  useWindowEventListener('scroll', onScrollChange);
+  // useWindowEventListener('scroll', onScrollChange);
 
+  useEffect(onWindowResize, []);
+  useEffect(onScrollChange, [scrollY]);
+
+  // props.parentRef
+
+  console.log(props)
   return (
     <>
       <TallOuterContainer dynamicHeight={dynamicHeight}>
-        <Box position={shouldStickHeader ? 'sticky' : 'relative'} top={0} width="100%">
-          {/* <Box position="relative" width="100%"> */}
-            {/* <VerticalTranslateContainer translateY={shouldStickHeader ? 0 : -translateX} ref={headerRef}> */}
-              <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                <h2>Services</h2>
-                <p>This sections displays services provided by the business</p>
-              </Box>
-            {/* </VerticalTranslateContainer>
-          </Box> */}
-        </Box>
-        <StickyInnerContainer ref={containerRef}>
+        
+        <StickyInnerContainer ref={containerRef} width={props.width} height={props.height} top={props.top}>
           <HorizontalTranslateContainer translateX={translateX} ref={objectRef}>
-            {children}
+            {props.children}
           </HorizontalTranslateContainer>
         </StickyInnerContainer>
       </TallOuterContainer>

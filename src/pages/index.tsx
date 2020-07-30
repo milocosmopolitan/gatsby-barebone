@@ -31,13 +31,15 @@ const Section: ComponentType<any> = styled.section.attrs<{minHeight: string}>(
 const IndexPage = () => {
   const { t, i18n } = useTranslation();
   const testimonialRef = useRef<any>();
-  const renders = useRef(0);
+  const serviceRef = useRef<any>();
+  // const renders = useRef(0);
   return (
     <>
       <SEO title="Home" lang={i18n.language} />
-      <Box position="fixed" top={0}>
+      <Box position="fixed" top={0} className="background-image"
+          height="100vh" width="100vw">
         {/* <div>scrollY: {scrollY}</div> */}
-        <div>renders: {renders.current++}</div>
+        {/* <div>renders: {renders.current++}</div> */}
       </Box>
       <Section id="intro" className="section" minHeight="80vh">
         <IntroSectionContent/>
@@ -62,8 +64,8 @@ const IndexPage = () => {
         {/* <AboutSectionContent/> */}
       </Section>
 
-      <Section id="services" className="section alt-color" minHeight="100vh">
-        <ServiceSectionContent/>
+      <Section id="services" className="section alt-color" minHeight="100vh" ref={serviceRef}>
+        <ServiceSectionContent containerRef={serviceRef}/>
       </Section>
 
       <Section id="testimonial" className="section" ref={testimonialRef}>

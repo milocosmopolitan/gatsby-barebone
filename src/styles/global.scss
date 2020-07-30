@@ -1,9 +1,11 @@
 @import './base';
 @import './typography';
-
+@import './animations';
 
 
 $dark-color: #184859; // #10b9a2
+
+// $dark-color: #5F7F8A;
 $light-color: #D5FA37;
 
 
@@ -18,17 +20,29 @@ body {
 
 nav {
   // background: red;
+  .MuiInputBase-root,
+  .MuiInput-root {
+    margin-bottom: 0;
+  }
 }
 
 
 
 
-body {
+// body {
+//   background-image: url(../images/bg-retro-noise.png);
+//   // Defaults are overwrite-able by setting one of the following:
+//   background-size: '300px';
+//   // backgroundPosition: '',
+//   background-repeat: 'repeat';
+// }
+
+.background-image {
   background-image: url(../images/bg-retro-noise.png);
   // Defaults are overwrite-able by setting one of the following:
   background-size: '300px';
   // backgroundPosition: '',
-  background-repeat: 'repeat';
+  background-repeat: 'repeat';  
 }
 
 // Layout color
@@ -57,5 +71,37 @@ body {
   .mobile-nav,
   .desktop-nav {
     color: $dark-color;
+  }
+}
+
+// Theme of the site
+
+section#about { 
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 45px 50vw;
+    border-bottom-color: $dark-color;
+    border-right-color: $dark-color;
+  }
+}
+
+section#testimonial { 
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 45px 50vw;
+    border-bottom-color: $dark-color;
+    border-right-color: $dark-color;
   }
 }

@@ -19,7 +19,7 @@ const TESTIMONIALS = [
 const VerticalTranslateContainer: ComponentType<any> = styled.div.attrs<any>(({ translateY }) => ({
   style: { transform: `translateY(${translateY}px)` }
 }))`
-  transition: transform ease-in;
+  transition: transform 60ms ease-in;
   will-change: transform;
 `;
 

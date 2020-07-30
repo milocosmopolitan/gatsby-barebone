@@ -1,9 +1,9 @@
 import React, {useRef, ComponentType, useState} from 'react';
-// import Box from '@material-ui/core/Box';
+import { useTranslation } from "react-i18next";
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
-import { Container, makeStyles, Drawer, Box } from '@material-ui/core';
+import { Container, makeStyles, Drawer, Box, Typography } from '@material-ui/core';
 import styled from "styled-components";
 import { Theme } from "@material-ui/core";
 
@@ -35,7 +35,7 @@ export const AboutDetail = () => {
   return (
     <>
       <Container maxWidth="md">
-        <h2>About Team</h2>
+        <Typography variant="h2">About Team</Typography>
       </Container>
     </>
   )
@@ -44,6 +44,7 @@ export const AboutDetail = () => {
 export const AboutSectionContent = (props: any) => {
   const classes = useStyles();
   const containerRef = useRef()
+  const { t } = useTranslation();
 
   const [opened, setState] = useState(false);
 
@@ -64,21 +65,27 @@ export const AboutSectionContent = (props: any) => {
   return (
     <OuterContainer ref={containerRef}>
       <Container maxWidth="sm" className={classes.content}>
-        <h2>About Business</h2>
-
-        <summary>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut massa tellus. Sed nunc felis, tristique eget consequat a, commodo sit amet odio. Nunc ut tellus non ipsum rhoncus condimentum. Curabitur urna turpis, tincidunt ut consectetur non, vehicula sit amet lacus. Nam ultricies libero et libero consequat, tempor fermentum purus accumsan. Integer viverra, eros sit amet dignissim mattis, sem ante tristique ipsum, sit amet convallis ligula est vel turpis. Nam finibus sed risus vel faucibus. Duis ut tellus sed augue condimentum malesuada et quis est. Maecenas tempus felis sed dui faucibus, lobortis dictum sapien suscipit. Pellentesque convallis urna nec sem venenatis aliquet. Maecenas mollis iaculis leo, ac pretium mauris. Duis a tellus tincidunt, accumsan justo nec, efficitur risus. Vestibulum sagittis nisl in mauris mollis commodo.
-          </p>
-        </summary>
+        <Typography variant="h2">
+          {t('about.company.heading')}
+        </Typography>
+        <Box component="summary" position="relative" width="100%" display="flex" justifyContent="center" marginTop={4} marginBottom={4}>
+          <Typography variant="body1">
+            {t('about.company.body')}
+          </Typography>
+        </Box>
+        {/** we probably will need too replace this button with custom designed button for the site */}
+        <Box component="div" position="relative" width="100%" display="flex" justifyContent="center" marginTop={7}>
+          <Button variant="contained" onClick={toggleDrawer(true)} aria-label={t('about.drawer.openButton')}>
+            {t('about.drawer.openButton')}
+          </Button>
+        </Box>
       </Container>
 
-      {/* <Button variant="contained" onClick={toggleDrawer('left', true)}>{anchor}</Button> */}
       <Drawer anchor='left' open={opened} onClose={toggleDrawer(false)} SlideProps={{timeout: 1000}}>
-        {/* {list(anchor)} */}
-        <Box component="aside" position="relative" width="100vw">
-          <Box component="header" position="relative" width="100%" display="flex" justifyContent="flex-end">
-            <IconButton onClick={toggleDrawer(false)}>
+        <Box id="about-detail-container" component="aside" position="relative" width="100vw">
+          <Box id="about-detail-header" component="header"
+            position="relative" width="100%" display="flex" justifyContent="flex-end">
+            <IconButton onClick={toggleDrawer(false)} aria-label={t('about.drawer.closeButton')}>
               <Close />
             </IconButton>
           </Box>
@@ -87,8 +94,6 @@ export const AboutSectionContent = (props: any) => {
           </Box>
         </Box>
       </Drawer>
-
-      <Button variant="contained" onClick={toggleDrawer(true)}>Learn more</Button>
     </OuterContainer>
   )
 }

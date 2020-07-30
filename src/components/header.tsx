@@ -6,23 +6,11 @@ import Box from '@material-ui/core/Box';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link, animateScroll as scroll } from "react-scroll";
 import Slide from '@material-ui/core/Slide';
-import Grow from '@material-ui/core/Grow';
 import Brand from './brand';
 import { IconButton } from '@material-ui/core';
 import { useLocation } from '../shared/hooks/location.hook';
 import Logo from '../assets/No-logo.svg';
 import { useBackgroundDarkness } from '../shared/background-check';
-
-// function GrowOnScroll(props: any) {
-//   const { children } = props;
-//   const trigger = useScrollTrigger({ target: typeof window !== `undefined` ? window : undefined });
-
-//   return (
-//     <Grow appear={true} in={trigger}>
-//       {children}
-//     </Grow>
-//   );
-// }
 
 function HideOnScroll(props: any) {
   const { children } = props;
@@ -55,7 +43,6 @@ export default function HideAppBar(props: any) {
               offset={-70}
               duration={500}>
               <Logo style={{position: 'absolute', top: 0, left: 0, fill: (bgDarkness <= 0.5 ? 'white' : 'black')}} height="40px" width="120px" /> 
-              {/* <Logo className="dark-svg" style={{position: 'absolute', top: 0, left: 0, display: (bgDarkness > 0.5 ? 'block' : 'none')}} height="40px" width="120px" />  */}
             </Link>
           </Brand>
         </Box>
@@ -72,15 +59,14 @@ export default function HideAppBar(props: any) {
               <IconButton id="collapsed-nav" className="nav-collapsed" color="inherit" aria-label="menu">
                 <MenuIcon />
               </IconButton>
-              {/* {props.children} */}
             </Box>
-            {/* <Typography variant="h6">Scroll to Hide App Bar</Typography> */}
 
             <Box component="div"
               className="desktop-nav"
               color={(bgDarkness <= 0.5 ? 'white' : 'black')}
-              display={{ xs: 'none', sm: 'none', md: 'block' }}
-              position="absolute" right="15px">
+              display={{ xs: 'none', sm: 'none', md: 'flex' }}
+              position="absolute" right="15px"
+              justifyContent="space-around" alignItems="center">
               {props.children}
             </Box>
 
